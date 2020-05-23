@@ -14,8 +14,7 @@ public class VistaBD extends JFrame
 {
 	// JTextField
 	public JTextField jtfWins = new JTextField();
-	public 
-	JTextField jtfLoses = new JTextField();
+	public JTextField jtfLoses = new JTextField();
 
 	// Botones
 	public JButton jbReset = new JButton("RESET");
@@ -26,7 +25,7 @@ public class VistaBD extends JFrame
 
 	public JButton jbPiedraUserIA = new JButton("");
 	public JButton jbPapelUserIA = new JButton("");
-	public JButton jbTijerasIA = new JButton("");
+	public JButton jbTijerasUserIA = new JButton("");
 
 	// Paneles
 	JPanel panHeader = new JPanel();
@@ -75,18 +74,18 @@ public class VistaBD extends JFrame
 		jbTijerasUser.setIcon(laImagenTijeras);
 		jbPiedraUserIA.setIcon(laImagenOculto);
 		jbPapelUserIA.setIcon(laImagenOculto);
-		jbTijerasIA.setIcon(laImagenOculto);
+		jbTijerasUserIA.setIcon(laImagenOculto);
 
 		jbPapelUserIA.setEnabled(false);
 		jbPiedraUserIA.setEnabled(false);
-		jbTijerasIA.setEnabled(false);
-		
-		jbPiedraUser.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		jbPapelUser.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		jbTijerasUser.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		jbPiedraUserIA.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		jbPapelUserIA.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		jbTijerasIA.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		jbTijerasUserIA.setEnabled(false);
+
+		jbPiedraUser.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbPapelUser.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbTijerasUser.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbPiedraUserIA.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbPapelUserIA.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbTijerasUserIA.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 	}
 
@@ -95,17 +94,51 @@ public class VistaBD extends JFrame
 		boton.setBorder(BorderFactory.createLineBorder(Color.GREEN, 5));
 	}
 
-	private void perdedor(JButton boton)
+	public void perdedor(JButton boton)
 	{
 		boton.setBorder(BorderFactory.createLineBorder(Color.RED, 5));
 	}
 
-	private void reset(JButton botonGanador, JButton botonPerdedor)
+	public void empatador(JButton boton)
 	{
-		botonGanador.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		botonPerdedor.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
+		boton.setBorder(BorderFactory.createLineBorder(Color.YELLOW, 5));
 	}
-	
+
+	public void reset()
+	{
+		jbPiedraUser.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbPapelUser.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbTijerasUser.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbPiedraUserIA.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbPapelUserIA.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		jbTijerasUserIA.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		jbPiedraUserIA.setIcon(laImagenOculto);
+		jbPapelUserIA.setIcon(laImagenOculto);
+		jbTijerasUserIA.setIcon(laImagenOculto);
+	}
+
+	public void desvelarPiedra()
+	{
+		jbPiedraUserIA.setIcon(laImagenPiedra);
+	}
+
+	public void desvelarPapel()
+	{
+		jbPapelUserIA.setIcon(laImagenPapel);
+	}
+
+	public void desvelarTijeras()
+	{
+		jbTijerasUserIA.setIcon(laImagenTijeras);
+	}
+
+	public void sumarContador(JTextField texto)
+	{
+		texto.setText(String.valueOf(Integer.valueOf(texto.getText()) + 1));
+
+	}
+
 	public void paneles()
 	{
 		panHeader.setLayout(new GridLayout(1, 4, 20, 30));
@@ -153,7 +186,7 @@ public class VistaBD extends JFrame
 
 		panBody.add(jbPiedraUserIA);
 		panBody.add(jbPapelUserIA);
-		panBody.add(jbTijerasIA);
+		panBody.add(jbTijerasUserIA);
 
 	}
 

@@ -49,13 +49,25 @@ public class ControladorBD
 
 				if (jugar("Piedra") == 0)
 				{
+					vista.reset();
 					System.out.println("EMPATE");
+					vista.empatador(vista.jbPiedraUser);
+					vista.empatador(vista.jbPiedraUserIA);
+					vista.desvelarPiedra();
 				} else if (jugar("Piedra") == 1)
 				{
-					vista.jtfLoses.setText(String.valueOf(Integer.valueOf(vista.jtfLoses.getText()) + 1));
+					vista.reset();
+					vista.sumarContador(vista.jtfLoses);
+					vista.perdedor(vista.jbPiedraUser);
+					vista.ganador(vista.jbPapelUserIA);
+					vista.desvelarPapel();
 				} else
 				{
-					vista.jtfWins.setText(String.valueOf(Integer.valueOf(vista.jtfWins.getText()) + 1));
+					vista.reset();
+					vista.sumarContador(vista.jtfWins);
+					vista.ganador(vista.jbPiedraUser);
+					vista.perdedor(vista.jbTijerasUserIA);
+					vista.desvelarTijeras();
 				}
 
 			}
@@ -69,13 +81,24 @@ public class ControladorBD
 
 				if (jugar("Papel") == 0)
 				{
-					System.out.println("EMPATE");
+					vista.reset();
+					vista.empatador(vista.jbPapelUser);
+					vista.empatador(vista.jbPapelUserIA);
+					vista.desvelarPapel();
 				} else if (jugar("Papel") == 1)
 				{
-					vista.jtfLoses.setText(String.valueOf(Integer.valueOf(vista.jtfLoses.getText()) + 1));
+					vista.reset();
+					vista.sumarContador(vista.jtfLoses);
+					vista.perdedor(vista.jbPapelUser);
+					vista.ganador(vista.jbTijerasUserIA);
+					vista.desvelarTijeras();
 				} else
 				{
-					vista.jtfWins.setText(String.valueOf(Integer.valueOf(vista.jtfWins.getText()) + 1));
+					vista.reset();
+					vista.sumarContador(vista.jtfWins);
+					vista.ganador(vista.jbPapelUser);
+					vista.perdedor(vista.jbPiedraUserIA);
+					vista.desvelarPiedra();
 				}
 
 			}
@@ -89,13 +112,24 @@ public class ControladorBD
 
 				if (jugar("Tijeras") == 0)
 				{
-					System.out.println("EMPATE");
+					vista.reset();
+					vista.empatador(vista.jbTijerasUser);
+					vista.empatador(vista.jbTijerasUserIA);
+					vista.desvelarTijeras();
 				} else if (jugar("Tijeras") == 1)
 				{
-					vista.jtfLoses.setText(String.valueOf(Integer.valueOf(vista.jtfLoses.getText()) + 1));
+					vista.reset();
+					vista.sumarContador(vista.jtfLoses);
+					vista.perdedor(vista.jbTijerasUser);
+					vista.ganador(vista.jbPiedraUserIA);
+					vista.desvelarPiedra();
 				} else
 				{
-					vista.jtfWins.setText(String.valueOf(Integer.valueOf(vista.jtfWins.getText()) + 1));
+					vista.reset();
+					vista.sumarContador(vista.jtfWins);
+					vista.ganador(vista.jbTijerasUser);
+					vista.perdedor(vista.jbPapelUserIA);
+					vista.desvelarPapel();
 				}
 
 			}
@@ -115,6 +149,9 @@ public class ControladorBD
 
 	private int jugar(String eleccionUSER)
 	{
+		// EMPATAR 0
+		// GANAR 2
+		// PERDER 1
 		String eleccionIA = null;
 
 		int eleccionNUM = (int) (Math.random() * 3);
