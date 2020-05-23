@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Dropbox/DAW/Programacion/mysql-connector-java-8.0.20/mysql-connector-java-8.0.20/mysql-connector-java-8.0.20.jar"/>
+	<classpathentry kind="lib" path="C:/Users/adria/Google Drive/Programacion/Proyectos/Control de temperatura/java/jcommon-1.0.23.jar"/>
+	<classpathentry kind="lib" path="C:/Users/adria/Google Drive/Programacion/Proyectos/Control de temperatura/java/jfreechart-1.0.19.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
