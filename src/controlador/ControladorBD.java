@@ -25,6 +25,7 @@ public class ControladorBD
 {
 	private VistaBD vista;
 	private ModeloBD modelo;
+	private String eleccion;
 
 	public ControladorBD(ModeloBD m, VistaBD v) throws IOException
 	{
@@ -37,143 +38,114 @@ public class ControladorBD
 
 	}
 
-	public void nuevaVentana() throws IOException
-	{
-		VistaBD vista2 = new VistaBD();
-		ModeloBD modelo = new ModeloBD();
-
-		ControladorBD control = new ControladorBD(modelo, vista2);
-
-		vista2.setLocation(800, 500);
-
-	}
-
 	public void acciones()
 	{
 
-		vista.rb_Today.addActionListener(new ActionListener()
+		vista.jbPiedraUser.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				try
+
+				if (jugar("Piedra") == 0)
 				{
-					modelo.proceder("Today");
-					funcion();
-				} catch (IOException e1)
+					System.out.println("EMPATE");
+				} else if (jugar("Piedra") == 1)
 				{
-					e1.printStackTrace();
+					vista.jtfLoses.setText(String.valueOf(Integer.valueOf(vista.jtfLoses.getText()) + 1));
+				} else
+				{
+					vista.jtfWins.setText(String.valueOf(Integer.valueOf(vista.jtfWins.getText()) + 1));
 				}
 
 			}
 		});
 
-		vista.rb_All.addActionListener(new ActionListener()
+		vista.jbPapelUser.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				try
+
+				if (jugar("Papel") == 0)
 				{
-					modelo.proceder("All");
-					funcion();
-				} catch (IOException e1)
+					System.out.println("EMPATE");
+				} else if (jugar("Papel") == 1)
 				{
-					e1.printStackTrace();
+					vista.jtfLoses.setText(String.valueOf(Integer.valueOf(vista.jtfLoses.getText()) + 1));
+				} else
+				{
+					vista.jtfWins.setText(String.valueOf(Integer.valueOf(vista.jtfWins.getText()) + 1));
 				}
 
 			}
 		});
 
-		vista.b_Crear.addActionListener(new ActionListener()
+		vista.jbTijerasUser.addActionListener(new ActionListener()
 		{
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				try
+
+				if (jugar("Tijeras") == 0)
 				{
-					nuevaVentana();
-				} catch (IOException e1)
+					System.out.println("EMPATE");
+				} else if (jugar("Tijeras") == 1)
 				{
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					vista.jtfLoses.setText(String.valueOf(Integer.valueOf(vista.jtfLoses.getText()) + 1));
+				} else
+				{
+					vista.jtfWins.setText(String.valueOf(Integer.valueOf(vista.jtfWins.getText()) + 1));
 				}
 
+			}
+		});
+
+		vista.jbReset.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				vista.jtfWins.setText("0");
+				vista.jtfLoses.setText("0");
 			}
 		});
 
 	}// Fin acciones()
 
-	private void funcion() throws IOException
+	private int jugar(String eleccionUSER)
 	{
-		DefaultXYDataset dataset = new DefaultXYDataset();
+		String eleccionIA = null;
 
-		double[][] resultados = new double[][]
-		{ tiempo(), temperatura() };
+		int eleccionNUM = (int) (Math.random() * 3);
 
-		dataset.addSeries("Temperaturas", resultados);
-
-		XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-		renderer.setSeriesPaint(0, Color.BLUE);
-		renderer.setSeriesStroke(0, new BasicStroke(2));
-
-		// dataset.addSeries("ie", new double[][] {{ 2007, 2008, 2009, 2010, 2011, 2012,
-		// 2013, 2014, 2015, 2016, 2017 }, { 67.7, 63.1, 60.2, 50.6, 41.1, 31.8, 27.6,
-		// 20.4, 17.3, 12.3, 8.1 }});
-		// renderer.setSeriesPaint(1, Color.BLUE);
-		// renderer.setSeriesStroke(1, new BasicStroke(2));
-
-		JFreeChart chart = ChartFactory.createXYLineChart("Temperaturas", "Segundos", "Temperatura", dataset);
-		chart.getXYPlot().getRangeAxis().setRange(0, 60);
-		((NumberAxis) chart.getXYPlot().getRangeAxis()).setNumberFormatOverride(new DecimalFormat("#'ºC'"));
-		chart.getXYPlot().setRenderer(renderer);
-
-		BufferedImage image = chart.createBufferedImage(1000, 400);
-		ImageIO.write(image, "png", new File("xy-chart.png"));
-
-		ChartPanel Panel = new ChartPanel(chart);
-
-		vista.getContentPane().add(Panel, BorderLayout.SOUTH);
-		vista.pack();
-	}
-
-	private void cargarDatos()
-	{
-
-		ArrayList<ModeloBD> lista = modelo.getListaTemperatura();
-
-		System.out.println("asdf");
-
-		for (ModeloBD al : lista)
+		switch (eleccionNUM)
 		{
-			System.out
-					.println(String.valueOf(al.getTiempo().getSeconds() + "   " + String.valueOf(al.getTemperatura())));
+		case 0:
+			eleccionIA = "Piedra";
+			break;
+		case 1:
+			eleccionIA = "Papel";
+			break;
+		case 2:
+			eleccionIA = "Tijeras";
+			break;
+
 		}
 
-	}
-
-	private double[] tiempo()
-	{
-		double[] lista = new double[modelo.getListaTemperatura().size()];
-
-		for (int i = 0; i < modelo.getListaTemperatura().size(); i++)
+		if (eleccionUSER.equalsIgnoreCase(eleccionIA))
 		{
-			lista[i] = Double.valueOf(modelo.getListaTemperatura().get(i).getTiempo().getSeconds());
+			return 0;
+		} else if ((eleccionUSER.equalsIgnoreCase("Piedra") && eleccionIA.equalsIgnoreCase("Papel"))
+				|| (eleccionUSER.equalsIgnoreCase("Tijeras") && eleccionIA.equalsIgnoreCase("Piedra"))
+				|| (eleccionUSER.equalsIgnoreCase("Papel") && eleccionIA.equalsIgnoreCase("Tijeras")))
+		{
+			return 1;
+		} else
+		{
+			return 2;
 		}
 
-		return lista;
-	}
-
-	private double[] temperatura()
-	{
-		double[] lista = new double[modelo.getListaTemperatura().size()];
-
-		for (int i = 0; i < modelo.getListaTemperatura().size(); i++)
-		{
-			lista[i] = modelo.getListaTemperatura().get(i).getTemperatura();
-		}
-
-		return lista;
 	}
 
 	public void iniciar()
