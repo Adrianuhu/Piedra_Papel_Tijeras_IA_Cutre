@@ -46,15 +46,15 @@ public class ControladorBD
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
-				if (jugar("Piedra") == 0)
+				int resultado = jugar("Piedra");
+				modelo.setCountPiedra(modelo.getCountPiedra() + 1);
+				if (resultado == 0)
 				{
 					vista.reset();
-					System.out.println("EMPATE");
 					vista.empatador(vista.jbPiedraUser);
 					vista.empatador(vista.jbPiedraUserIA);
 					vista.desvelarPiedra();
-				} else if (jugar("Piedra") == 1)
+				} else if (resultado == 1)
 				{
 					vista.reset();
 					vista.sumarContador(vista.jtfLoses);
@@ -78,14 +78,15 @@ public class ControladorBD
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
-				if (jugar("Papel") == 0)
+				int resultado = jugar("Papel");
+				modelo.setCountPapel(modelo.getCounPapel() + 1);
+				if (resultado == 0)
 				{
 					vista.reset();
 					vista.empatador(vista.jbPapelUser);
 					vista.empatador(vista.jbPapelUserIA);
 					vista.desvelarPapel();
-				} else if (jugar("Papel") == 1)
+				} else if (resultado == 1)
 				{
 					vista.reset();
 					vista.sumarContador(vista.jtfLoses);
@@ -109,14 +110,15 @@ public class ControladorBD
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-
-				if (jugar("Tijeras") == 0)
+				int resultado = jugar("Tijeras");
+				modelo.setCountTijeras(modelo.getCountTijeras() + 1);
+				if (resultado == 0)
 				{
 					vista.reset();
 					vista.empatador(vista.jbTijerasUser);
 					vista.empatador(vista.jbTijerasUserIA);
 					vista.desvelarTijeras();
-				} else if (jugar("Tijeras") == 1)
+				} else if (resultado == 1)
 				{
 					vista.reset();
 					vista.sumarContador(vista.jtfLoses);
@@ -145,6 +147,17 @@ public class ControladorBD
 			}
 		});
 
+		vista.jbCambioUser.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				vista.jbCambioUser.setText(String.valueOf(modelo.getCountPiedra())
+						+ String.valueOf(modelo.getCounPapel()) + String.valueOf(modelo.getCountTijeras()));
+
+			}
+		});
+
 	}// Fin acciones()
 
 	private int jugar(String eleccionUSER)
@@ -154,7 +167,19 @@ public class ControladorBD
 		// PERDER 1
 		String eleccionIA = null;
 
-		int eleccionNUM = (int) (Math.random() * 3);
+		int numRandom = (int) (Math.random() * 2);
+		int eleccionNUM;
+
+		if (numRandom == 0)
+		{
+			// GTO
+			eleccionNUM = (int) (Math.random() * 3);
+		} else
+		{
+			// OPTIMO
+			eleccionNUM = modelo.resultadoOptimo();
+
+		}
 
 		switch (eleccionNUM)
 		{
@@ -167,18 +192,21 @@ public class ControladorBD
 		case 2:
 			eleccionIA = "Tijeras";
 			break;
-
 		}
 
 		if (eleccionUSER.equalsIgnoreCase(eleccionIA))
 		{
 			return 0;
-		} else if ((eleccionUSER.equalsIgnoreCase("Piedra") && eleccionIA.equalsIgnoreCase("Papel"))
-				|| (eleccionUSER.equalsIgnoreCase("Tijeras") && eleccionIA.equalsIgnoreCase("Piedra"))
-				|| (eleccionUSER.equalsIgnoreCase("Papel") && eleccionIA.equalsIgnoreCase("Tijeras")))
+		} else if (eleccionUSER.equalsIgnoreCase("Piedra") && eleccionIA.equalsIgnoreCase("Papel"))
 		{
 			return 1;
-		} else
+		} else if (eleccionUSER.equalsIgnoreCase("Tijeras") && eleccionIA.equalsIgnoreCase("Piedra"))
+		{
+			return 1;
+		} else if (eleccionUSER.equalsIgnoreCase("Papel") && eleccionIA.equalsIgnoreCase("Tijeras"))
+		{
+			return 1;
+		}
 		{
 			return 2;
 		}

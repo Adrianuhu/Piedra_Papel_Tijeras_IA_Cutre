@@ -10,92 +10,60 @@ import java.util.ArrayList;
 public class ModeloBD
 {
 
-	private double temperatura;
-
-	private java.util.Date tiempo = new java.util.Date();
-	private java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	String currentTime = sdf.format(tiempo);
-
-	private ArrayList<ModeloBD> listaTemperaturas;
+	private int countPiedra = 0;
+	private int countPapel = 0;
+	private int countTijeras = 0;
 
 	public ModeloBD()
 	{
 	}
 
-	public ModeloBD(java.util.Date tiempo, double temperatura)
+	public int resultadoOptimo()
 	{
-		super();
-		this.tiempo = tiempo;
-		this.temperatura = temperatura;
-	}
+		int[] result = new int[]{ countPiedra, countPapel, countTijeras };
 
-	public void proceder(String opcion)
-	{
-		ResultSet resultado;
+		int resultado = result[0];
+		int indice = 0;
 
-		try
+		for (int i = 1; i < result.length; i++)
 		{
-			Connection conn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/temperaturas_duron?allowPublicKeyRetrieval=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC",
-					"root", "falso123");
-			Statement textoSql = conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-
-			if (opcion.equalsIgnoreCase("Today"))
+			if (result[i] > resultado)
 			{
-
-				resultado = textoSql.executeQuery(
-						"select tiempo, avg(temperatura)'temperatura' from temperaturas_duron.temperaturas where day(tiempo) like day(current_date()) group by hour(tiempo)");
-			} else if (opcion.equalsIgnoreCase("All"))
-			{
-				resultado = textoSql.executeQuery("select tiempo, temperatura from temperaturas_duron.temperaturas");
+				indice = i;
 			}
-
-			else
-			{
-				resultado = textoSql.executeQuery("select tiempo, temperatura from temperaturas");
-			}
-
-			if (resultado.next())
-			{
-				listaTemperaturas = new ArrayList<>();
-
-				java.util.Date tiempoV = new java.util.Date();
-
-				double temperaturaV;
-
-				resultado.absolute(0);
-				while (resultado.next())
-				{
-					tiempoV = resultado.getTimestamp("tiempo");
-					temperaturaV = resultado.getDouble("temperatura");
-
-					ModeloBD obj = new ModeloBD(tiempoV, temperaturaV);
-
-					listaTemperaturas.add(obj);
-				}
-			}
-
-		} // Fin try
-		catch (Exception e)
-		{
-			System.out.println(e);
 		}
 
-	}// Fin de proceder()
-
-	public java.util.Date getTiempo()
-	{
-		return tiempo;
+		return indice;
 	}
 
-	public double getTemperatura()
+	public int getCountPiedra()
 	{
-		return temperatura;
+		return countPiedra;
 	}
 
-	public ArrayList<ModeloBD> getListaTemperatura()
+	public int getCounPapel()
 	{
-		return listaTemperaturas;
+		return countPapel;
+	}
+
+	public int getCountTijeras()
+	{
+		return countTijeras;
+	}
+
+	public void setCountPiedra(int countPiedra)
+	{
+		this.countPiedra = countPiedra;
+	}
+
+	public void setCountPapel(int countpapel)
+	{
+		this.countPapel = countpapel;
+	}
+
+	public void setCountTijeras(int countTijeras)
+	{
+		this.countTijeras = countTijeras;
 	}
 
 }// Fin de la clase
