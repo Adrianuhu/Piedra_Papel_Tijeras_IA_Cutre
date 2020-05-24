@@ -10,30 +10,39 @@ import java.util.ArrayList;
 public class ModeloBD
 {
 
-	private int countPiedra = 0;
-	private int countPapel = 0;
-	private int countTijeras = 0;
+	private int countPiedra = 1;
+	private int countPapel = 1;
+	private int countTijeras = 1;
 
 	public ModeloBD()
 	{
 	}
 
+
+
+
 	public int resultadoOptimo()
 	{
-		int[] result = new int[]{ countPiedra, countPapel, countTijeras };
+		int total = countPiedra + countPapel + countTijeras;
 
-		int resultado = result[0];
-		int indice = 0;
+		int porcentPiedra = countPiedra * 100 / total;
+		int porcentPapel = countPapel * 100 / total;
+		int porcentTijeras = countTijeras * 100 / total;
 
-		for (int i = 1; i < result.length; i++)
+		int numRandom = (int) (Math.random() * 101);
+
+		if (numRandom <= porcentPiedra)
 		{
-			if (result[i] > resultado)
-			{
-				indice = i;
-			}
-		}
+			return 1;
+		} else if (numRandom > porcentPiedra && numRandom <= (porcentTijeras+porcentPiedra))
+		{
+			return 0;
+		} else
+		{
+			return 2;
 
-		return indice;
+		}
+//TERMINAR
 	}
 
 	public int getCountPiedra()
